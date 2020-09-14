@@ -20,21 +20,24 @@
     from browser import bind, document, alert, worker
 
     w = worker.Worker("simulator")
+
+    # Listener for the button
     def test(ev):
         w.send({"code": document['zone'].value})
         print("Should print first or second")
+    
+    document["mybutton"].bind("click", test)
 
+    # Listens for messages from the worker
     @bind(w, "message")
     def onmessage(obj):
         print(obj.data)
-
-    document["mybutton"].bind("click", test)
-
-    document <= "Hello !"
 </script>
 <script type="text/python" class="webworker" id="simulator">
-    from browser import bind, self
+    # Code for the worker - class should be "webworker"
+    # id matches up with id given when worker is initialized
 
+    from browser import bind, self
     import time
 
     class Test():
@@ -46,6 +49,7 @@
             while time.time() < end_time:
                 pass
 
+    # Listens for messages from the main thread
     @bind(self, "message")
     def thread_fn(obj):
         t = Test()
