@@ -1,6 +1,3 @@
-# Code for the worker - class should be "webworker"
-# id matches up with id given when worker is initialized
-
 from browser import bind, self
 import time
 
